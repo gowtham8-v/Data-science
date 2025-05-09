@@ -1,0 +1,4 @@
+weather_condition,road_surface,light_condition,hour,accident_severity
+Clear,Dry,Daylight,14,Minor
+Rain,Wet,Darkness,23,Severe
+Fog,Wet,Daylight,8,Major
