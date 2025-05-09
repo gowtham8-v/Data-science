@@ -1,0 +1,38 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load sample accident dataset
+data = pd.read_csv('traffic_accidents.csv')
+
+# View dataset head
+print(data.head())
+
+# Select features and target
+features = ['weather_condition', 'road_surface', 'light_condition', 'hour']
+target = 'accident_severity'
+
+# Convert categorical features to numeric using one-hot encoding
+data_encoded = pd.get_dummies(data[features])
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(data_encoded, data[target], test_size=0.3, random_state=42)
+
+# Build Random Forest model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Confusion Matrix Visualization
+conf_matrix = confusion_matrix(y_test, y_pred)
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues')
+plt.title('Accident Severity Prediction - Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.show()
